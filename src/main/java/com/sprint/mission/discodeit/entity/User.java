@@ -1,25 +1,24 @@
 package com.sprint.mission.discodeit.entity;
 
 public class User extends Common {
-    private String name;
+    private String username;
 
-    User (String name){
-        super();
-        this.name = name;
+    public User (String username) {
+        super();   // UUID, createdAt, updatedAt
+        this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void updateName(String name){
-        this.name = name;
-        setUpdatedAt();
+    public void updateUsername(String username) {
+        this.username = username;
+        setUpdatedAt(System.currentTimeMillis());
     }
 
     @Override
     public String toString() {
-        return "User{id=" + getId() + ", name='" + name + "', createdAt=" + getCreatedAt() + ", updatedAt=" + getUpdatedAt() + "}";
+        return "User [id :" + id + ", username :" + username + "]";
     }
-
 }

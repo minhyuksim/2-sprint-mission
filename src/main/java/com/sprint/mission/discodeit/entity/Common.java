@@ -5,29 +5,28 @@ import java.util.UUID;
 public abstract class Common {
     protected final UUID id;
     protected final long createdAt;
-    protected long updatedAt;
+    private long updatedAt;
 
-        public Common () {
+    Common() {
         this.id = UUID.randomUUID();
         this.createdAt = System.currentTimeMillis();
-        this.updatedAt = this.createdAt;
-        }
+        this.updatedAt = createdAt;
+    }
 
     public UUID getId() {
-            return id;
+        return id;
     }
 
     public long getCreatedAt() {
-            return createdAt;
+        return createdAt;
     }
 
     public long getUpdatedAt() {
-            return updatedAt;
+        return updatedAt;
     }
 
-    public void setUpdatedAt() {
-            this.updatedAt = System.currentTimeMillis();
+    public void setUpdatedAt(long updatedAt) {
+        this.updatedAt = updatedAt;
     }
-
 
 }
