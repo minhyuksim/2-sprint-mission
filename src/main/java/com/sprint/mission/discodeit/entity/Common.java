@@ -7,7 +7,7 @@ public abstract class Common {
     protected final long createdAt;
     private long updatedAt;
 
-    Common() {
+    public Common() {
         this.id = UUID.randomUUID();
         this.createdAt = System.currentTimeMillis();
         this.updatedAt = createdAt;

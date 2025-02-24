@@ -8,10 +8,6 @@ public class User extends Common {
         this.username = username;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public void updateUsername(String username) {
         this.username = username;
         setUpdatedAt(System.currentTimeMillis());
@@ -19,6 +15,6 @@ public class User extends Common {
 
     @Override
     public String toString() {
-        return "User [id :" + id + ", username :" + username + "]";
+        return "[username : " + username + ", ID : " + id + " 생성시간 : " + getCreatedAt() + " 업데이트 시간 : "+ getUpdatedAt() + "]";
     }
 }
