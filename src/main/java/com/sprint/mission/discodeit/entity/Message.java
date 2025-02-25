@@ -15,6 +15,10 @@ public class Message extends Common{
         this.channelId = channelId;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
     public void updateMessage(String message) {
         this.message = message;
         setUpdatedAt(System.currentTimeMillis());
@@ -22,6 +26,6 @@ public class Message extends Common{
 
     @Override
     public String toString() {
-        return "[message=" + message + " 보내시는 분은 : " + senderId + " 채널명은 : " + channelId + " 생성 시간 : " + getCreatedAt() + " 종료 시간 : " + getUpdatedAt() + "]";
+        return "[message : " + message + " 보내시는분은 : " + senderId + " 채널명은 : " + channelId + " 생성 시간 : " + getCreatedAt() + " 종료 시간 : " + getUpdatedAt() + "]";
     }
 }

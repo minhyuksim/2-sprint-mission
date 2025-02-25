@@ -106,11 +106,22 @@ public class JavaApplication {
                                 System.out.println("채널이 존재하지 않습니다.");
                                 break;
                             }
+                            System.out.print("찾으시는 채널의 정보 : ");
                             System.out.println(channelService.get(findChannel.getId()));
                             break;
 
                         case 3:
                             System.out.print("찾는 메세지를 입력해주세요 : ");
+                            String findcontent = sc.nextLine();
+                            Message findmessage = messageService.getAll().stream()
+                                    .filter(m->m.getMessage().equals(findcontent))
+                                    .findFirst().orElse(null);
+                            if (findmessage == null) {
+                                System.out.println("메세지가 존재하지 않습니다.");
+                                break;
+                            }
+                            System.out.println(messageService.get(findmessage.getId()));
+                            break;
                     }
                     break;
                 case 5:
@@ -155,6 +166,24 @@ public class JavaApplication {
                             System.out.println("사용자 업데이트가 완료되었습니다.");
                             System.out.println("업데이트된 사용자 정보 : " + channelService.get(updateCh.getId()));
                             break;
+                        case 3:
+                            System.out.print("업데이트할 메세지의 기존 내용을 입력해주세요 : ");
+                            String updateMessageContent = sc.nextLine();
+                            Message updateMessage = messageService.getAll().stream()
+                                    .filter(m -> m.getMessage().equals(updateMessageContent))
+                                    .findFirst().orElse(null);
+                            if (updateMessage == null) {
+                                System.out.println("해당 메세지가 존재하지 않습니다.");
+                                break;
+                            }
+                            System.out.print("새로운 메세지 내용을 입력해주세요 : ");
+                            String newMessageContent = sc.nextLine();
+                            messageService.update(updateMessage, newMessageContent);
+                            System.out.println("메세지 업데이트가 완료되었습니다.");
+                            System.out.println("업데이트된 메세지 정보 : " + messageService.get(updateMessage.getId()));
+                            break;
+                        default:
+                            System.out.println("잘못된 선택입니다.");
                     }
                     break;
                 case 7:
