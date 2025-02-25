@@ -43,7 +43,6 @@ public class JavaApplication {
                     System.out.print("사용자 정보는 : ");
                     System.out.println(userService.get(user.getId()));
                     break;
-
                 case 2:
                     System.out.print("채널명을 입력주세요 : ");
                     String chname = sc.nextLine();
@@ -53,7 +52,6 @@ public class JavaApplication {
                     System.out.print("채널 정보는 : ");
                     System.out.println(channelService.get(channel.getId()));
                     break;
-
                 case 3:
                     System.out.print("보내시는분의 이름을 입력해주세요 : ");
                     String sendername = sc.nextLine();
@@ -64,7 +62,6 @@ public class JavaApplication {
                         System.out.println("보내는 사람이 존재하지 않습니다.");
                         break;
                     }
-
                     System.out.print("채널명을 입력해주세요 : ");
                     String senderchname = sc.nextLine();
                     Channel senderch = channelService.getAll().stream()
@@ -74,16 +71,12 @@ public class JavaApplication {
                         System.out.println("채널이 존재하지 않습니다.");
                         break;
                     }
-
                     System.out.print("메세지를 입력해주세요 : ");
                     String mname = sc.nextLine();
                     Message message = new Message(mname, sender.getId(), sender.getId());
                     messageService.Create(message);
                     System.out.println("메세지가 생성되었습니다.");
                     break;
-
-
-
                 case 4:
                     System.out.print("찾으시는 카테고리를 입력해주세요(1.유저 2.채널 3.메세지) : ");
                     int catechoice = sc.nextInt();
@@ -119,41 +112,59 @@ public class JavaApplication {
                         case 3:
                             System.out.print("찾는 메세지를 입력해주세요 : ");
                     }
-
                     break;
-
                 case 5:
                     System.out.println("전체 사용자 목록 : ");
                     userService.getAll().forEach(alluser -> System.out.println(alluser));
                     channelService.getAll().forEach(allchannel -> System.out.println(allchannel.toString()));
                     messageService.getAll().forEach(allmessage -> System.out.println(allmessage));
                     break;
-
                 case 6:
-                    System.out.print("업데이트할 사용자의 성함을 입력해주세요 : ");
-                    String updateUsername = sc.nextLine();
-                    User updateUser = userService.getAll().stream()
-                            .filter(u -> u.getUsername().equals(updateUsername))
-                            .findFirst().orElse(null);
-                    if (updateUser == null) {
-                        System.out.println("해당 사용자가 존재하지 않습니다.");
-                        break;
+                    System.out.print("업데이트를 진행할 카테고리를 입력해주세요 (1.유저 2.채널 3.메세지) : ");
+                    int updatenum = sc.nextInt();
+                    sc.nextLine();
+                    switch (updatenum) {
+                        case 1:
+                            System.out.print("업데이트할 사용자의 성함을 입력해주세요 : ");
+                            String updateUsername = sc.nextLine();
+                            User updateUser = userService.getAll().stream()
+                                    .filter(u -> u.getUsername().equals(updateUsername))
+                                    .findFirst().orElse(null);
+                            if (updateUser == null) {
+                                System.out.println("해당 사용자가 존재하지 않습니다.");
+                                break;
+                            }
+                            System.out.print("새로운 사용자 이름을 입력해주세요 : ");
+                            String newUsername = sc.nextLine();
+                            userService.update(updateUser, newUsername);
+                            System.out.println("사용자 업데이트가 완료되었습니다.");
+                            System.out.println("업데이트된 사용자 정보 : " + userService.get(updateUser.getId()));
+                            break;
+                        case 2:
+                            System.out.print("업데이트할 채널을 입력해주세요 : ");
+                            String updateChname = sc.nextLine();
+                            Channel updateCh = channelService.getAll().stream()
+                                    .filter(c-> c.getChname().equals(updateChname))
+                                    .findFirst().orElse(null);
+                            if (updateCh == null) {
+                                System.out.println("해당 채널이 존재하지 않습니다.");
+                            }
+                            System.out.print("새로운 사용자 이름을 입력해주세요 : ");
+                            String newChname = sc.nextLine();
+                            channelService.update(updateCh, newChname);
+                            System.out.println("사용자 업데이트가 완료되었습니다.");
+                            System.out.println("업데이트된 사용자 정보 : " + channelService.get(updateCh.getId()));
+                            break;
                     }
-                    System.out.print("새로운 사용자 이름을 입력해주세요 : ");
-                    String newUsername = sc.nextLine();
-                    userService.update(updateUser, newUsername);
-                    System.out.println("사용자 업데이트가 완료되었습니다.");
-                    System.out.println("업데이트된 사용자 정보 : " + userService.get(updateUser.getId()));
                     break;
-
                 case 7:
                     run = false;
                     break;
+
+                default:
+                    System.out.println("메뉴에 없는 번호 입니다. 다시 선택해주세요");
+                    break;
             }
-
-
-
         }
-
     }
 }
