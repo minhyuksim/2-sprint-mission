@@ -8,7 +8,9 @@ public class Channel extends Common {
         this.Chname = Chname;
     }
 
-
+    public String getChname() {
+        return Chname;
+    }
 
     public void updateChname(String Chname) {
         this.Chname = Chname;

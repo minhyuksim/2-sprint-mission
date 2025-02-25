@@ -19,54 +19,141 @@ public class JavaApplication {
 
 
 
-        //객체 초기화
-        User user1 = new User("민혁");
-        User user2 = new User("코드잇");
-        Channel channel1 = new Channel("백엔드2기");
-        Channel channel2 = new Channel("프론트엔드2기");
+        while (run) {
+            System.out.println("======= 메뉴 =======");
+            System.out.println("1. 유저 생성");
+            System.out.println("2. 채널 생성");
+            System.out.println("3. 메세지 생성");
+            System.out.println("4. 사용자 조회(이름)");
+            System.out.println("5. 전체 사용자 목록 출력");
+            System.out.println("6. 사용자 업데이트");
+            System.out.println("7. 프로그램 종료");
+            System.out.print("원하는 번호를 선택하세요 : ");
+
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("이름을 입력해주세요 : ");
+                    String username = sc.nextLine();
+                    User user = new User(username);
+                    userService.Create(user);
+                    System.out.println("사용자가 생성 되었습니다.");
+                    System.out.print("사용자 정보는 : ");
+                    System.out.println(userService.get(user.getId()));
+                    break;
+
+                case 2:
+                    System.out.print("채널명을 입력주세요 : ");
+                    String chname = sc.nextLine();
+                    Channel channel = new Channel(chname);
+                    channelService.Create(channel);
+                    System.out.println("채널이 생성 되었습니다.");
+                    System.out.print("채널 정보는 : ");
+                    System.out.println(channelService.get(channel.getId()));
+                    break;
+
+                case 3:
+                    System.out.print("보내시는분의 이름을 입력해주세요 : ");
+                    String sendername = sc.nextLine();
+                    User sender = userService.getAll().stream()
+                            .filter(u -> u.getUsername().equals(sendername))
+                            .findFirst().orElse(null);
+                    if (sender == null) {
+                        System.out.println("보내는 사람이 존재하지 않습니다.");
+                        break;
+                    }
+
+                    System.out.print("채널명을 입력해주세요 : ");
+                    String senderchname = sc.nextLine();
+                    Channel senderch = channelService.getAll().stream()
+                            .filter(c->c.getChname().equals(senderchname))
+                            .findFirst().orElse(null);
+                    if (senderch == null) {
+                        System.out.println("채널이 존재하지 않습니다.");
+                        break;
+                    }
+
+                    System.out.print("메세지를 입력해주세요 : ");
+                    String mname = sc.nextLine();
+                    Message message = new Message(mname, sender.getId(), sender.getId());
+                    messageService.Create(message);
+                    System.out.println("메세지가 생성되었습니다.");
+                    break;
 
 
-        //객체 생성
-        userService.Create(user1);
-        userService.Create(user2);
-        channelService.Create(channel1);
-        channelService.Create(channel2);
 
-        Message message = new Message("hi, hi", user1.getId(), channel1.getId());
-        messageService.Create(message);
+                case 4:
+                    System.out.print("찾으시는 카테고리를 입력해주세요(1.유저 2.채널 3.메세지) : ");
+                    int catechoice = sc.nextInt();
+                    sc.nextLine();
 
-        //단건 조회
-        System.out.println(userService.get(user1.getId()));
-        System.out.println(channelService.get(channel1.getId()));
-        System.out.println(messageService.get(message.getId()));
+                    switch (catechoice) {
+                        case 1:
+                            System.out.print("찾는 유저의 성함을 입력해주세요 : ");
+                            String findusername = sc.nextLine();
+                            User finduser = userService.getAll().stream()
+                                    .filter(u -> u.getUsername().equals(findusername))
+                                    .findFirst().orElse(null);
+                            if (finduser == null) {
+                                System.out.println("찾으시는 유저가 존재하지 않습니다.");
+                                break;
+                            }
+                            System.out.println(userService.get(finduser.getId()));
+                            break;
 
-        //다건 조회
-        System.out.println("전체 사용자 목록 : ");
-        userService.getAll().forEach(user -> System.out.println(user.toString()));
-        channelService.getAll().forEach(channel -> System.out.println(channel.toString()));
-        messageService.getAll().forEach(m -> System.out.println(m.toString()));
+                        case 2:
+                            System.out.print("찾는 채널 이름을 입력해주세요 : ");
+                            String findchname = sc.nextLine();
+                            Channel findChannel = channelService.getAll().stream()
+                                    .filter(c->c.getChname().equals(findchname))
+                                    .findFirst().orElse(null);
+                            if (findChannel == null) {
+                                System.out.println("채널이 존재하지 않습니다.");
+                                break;
+                            }
+                            System.out.println(channelService.get(findChannel.getId()));
+                            break;
 
-        // 업데이트 이후 정보 출력
-        userService.update(user1, "심민혁");
-        userService.getAll().forEach(user -> System.out.println(user.toString()));
-        channelService.update(channel1, "백엔드 3기");
-        channelService.getAll().forEach(channel -> System.out.println(channel.toString()));
-        messageService.update(message, "hello, world");
-        messageService.getAll().forEach(m -> System.out.println(m.toString()));
+                        case 3:
+                            System.out.print("찾는 메세지를 입력해주세요 : ");
+                    }
 
-        // 삭제
-        boolean userdelete = userService.delete(user1.getId());
-        System.out.println("메세지 삭제 여부 : " + userdelete);
-        boolean chdelete = channelService.delete(channel1.getId());
-        System.out.println("메세지 삭제 여부 : " + chdelete);
-        boolean messagedelete = messageService.delete(message.getId());
-        System.out.println("메세지 삭제 여부 : " + messagedelete);
+                    break;
 
-        // 삭제 확인
-        System.out.println("삭제 확인 후 조회(null일 경우 삭제 완료) : " + userService.get(user1.getId()));
-        System.out.println("삭제 확인 후 조회(null일 경우 삭제 완료) : " + channelService.get(channel1.getId()));
-        System.out.println("삭제 확인 후 조회(null일 경우 삭제 완료) : " + messageService.get(message.getId()));
+                case 5:
+                    System.out.println("전체 사용자 목록 : ");
+                    userService.getAll().forEach(alluser -> System.out.println(alluser));
+                    channelService.getAll().forEach(allchannel -> System.out.println(allchannel.toString()));
+                    messageService.getAll().forEach(allmessage -> System.out.println(allmessage));
+                    break;
 
+                case 6:
+                    System.out.print("업데이트할 사용자의 성함을 입력해주세요 : ");
+                    String updateUsername = sc.nextLine();
+                    User updateUser = userService.getAll().stream()
+                            .filter(u -> u.getUsername().equals(updateUsername))
+                            .findFirst().orElse(null);
+                    if (updateUser == null) {
+                        System.out.println("해당 사용자가 존재하지 않습니다.");
+                        break;
+                    }
+                    System.out.print("새로운 사용자 이름을 입력해주세요 : ");
+                    String newUsername = sc.nextLine();
+                    userService.update(updateUser, newUsername);
+                    System.out.println("사용자 업데이트가 완료되었습니다.");
+                    System.out.println("업데이트된 사용자 정보 : " + userService.get(updateUser.getId()));
+                    break;
+
+                case 7:
+                    run = false;
+                    break;
+            }
+
+
+
+        }
 
     }
 }

@@ -8,6 +8,11 @@ public class User extends Common {
         this.username = username;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+
     public void updateUsername(String username) {
         this.username = username;
         setUpdatedAt(System.currentTimeMillis());
