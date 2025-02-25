@@ -25,12 +25,10 @@ public class JCFUserService implements UserService {
 
     public void update(User user, String updatename) {
         user.updateUsername(updatename);
-        data.put(user.getId(), user);
     }
 
     public boolean delete(UUID id) {
         return data.remove(id) != null;
     }
-
 
 }

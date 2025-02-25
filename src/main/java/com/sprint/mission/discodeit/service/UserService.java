@@ -16,4 +16,5 @@ public interface UserService {
     void update(User user, String updatename);
 
     boolean delete(UUID id);
+
 }

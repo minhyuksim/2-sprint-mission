@@ -17,4 +17,7 @@ public class User extends Common {
     public String toString() {
         return "[username : " + username + ", ID : " + id + " 생성시간 : " + getCreatedAt() + " 업데이트 시간 : "+ getUpdatedAt() + "]";
     }
+
+
+
 }

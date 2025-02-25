@@ -8,9 +8,7 @@ public class Channel extends Common {
         this.Chname = Chname;
     }
 
-    public String getChname() {
-        return Chname;
-    }
+
 
     public void updateChname(String Chname) {
         this.Chname = Chname;
@@ -19,7 +17,7 @@ public class Channel extends Common {
 
     @Override
     public String toString() {
-        return "Channel [id :" + id + ", Chname :" + Chname + "]";
+        return "[CHname : " + Chname + ", ID : " + id + " 생성시간 : " + getCreatedAt() + " 업데이트 시간 : "+ getUpdatedAt() + "]";
     }
 
 
