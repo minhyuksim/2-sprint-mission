@@ -1,27 +1,63 @@
 package com.sprint.mission.discodeit.entity;
 
-public class Channel extends Common {
-    private String Chname;
+import java.time.Instant;
+import java.util.UUID;
 
-    public Channel(String Chname) {
-        super();
-        this.Chname = Chname;
+public class Channel {
+    private UUID id;
+    private Long createdAt;
+    private Long updatedAt;
+    //
+    private ChannelType type;
+    private String name;
+    private String description;
+
+    public Channel(ChannelType type, String name, String description) {
+        this.id = UUID.randomUUID();
+        this.createdAt = Instant.now().getEpochSecond();
+        //
+        this.type = type;
+        this.name = name;
+        this.description = description;
     }
 
-    public String getChname() {
-        return Chname;
+    public UUID getId() {
+        return id;
     }
 
-    public void updateChname(String Chname) {
-        this.Chname = Chname;
-        setUpdatedAt(System.currentTimeMillis());
+    public Long getCreatedAt() {
+        return createdAt;
     }
 
-    @Override
-    public String toString() {
-        return "[CHname : " + Chname + ", ID : " + id + " 생성시간 : " + getCreatedAt() + " 업데이트 시간 : "+ getUpdatedAt() + "]";
+    public Long getUpdatedAt() {
+        return updatedAt;
     }
 
+    public ChannelType getType() {
+        return type;
+    }
 
+    public String getName() {
+        return name;
+    }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void update(String newName, String newDescription) {
+        boolean anyValueUpdated = false;
+        if (newName != null && !newName.equals(this.name)) {
+            this.name = newName;
+            anyValueUpdated = true;
+        }
+        if (newDescription != null && !newDescription.equals(this.description)) {
+            this.description = newDescription;
+            anyValueUpdated = true;
+        }
+
+        if (anyValueUpdated) {
+            this.updatedAt = Instant.now().getEpochSecond();
+        }
+    }
 }
