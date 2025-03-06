@@ -5,6 +5,9 @@ import com.sprint.mission.discodeit.entity.ChannelType;
 import com.sprint.mission.discodeit.service.ChannelService;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -40,14 +43,30 @@ public class FileChannelService implements ChannelService {
 
     }
 
-    private void saveChannelToFile(Channel channel) {
-        try (FileOutputStream fos = new FileOutputStream(FILE_PATH);
+    public static <T> void saveChannelToFile(Path filePath, T data) {
+        try (FileOutputStream fos = new FileOutputStream(filePath.toFile());
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             ){
-            oos.writeObject(channel);
+            oos.writeObject(data);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private List<Channel> loadChannelsFromFile() {
+        List<Channel> channels = new ArrayList<>();
+        if (Files.exists(Paths.get(FILE_PATH))) {
+            try (FileInputStream fis = new FileInputStream(FILE_PATH);
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                Object data = ois.readObject();
+                if (data instanceof List) {
+                    channels = (List<Channel>) data;
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return channels;
     }
 
 }
