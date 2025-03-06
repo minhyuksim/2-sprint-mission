@@ -57,6 +57,16 @@ public class FileChannelService implements ChannelService {
         saveChannelToFile(Paths.get(FILE_PATH), channels);
     }
 
+    public static void channelinit() {
+        if(!Files.exists(Paths.get(FILE_PATH))) {
+            try {
+                Files.createDirectories(Paths.get(FILE_PATH));
+            } catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public static <T> void saveChannelToFile(Path filePath, T data) {
         try (FileOutputStream fos = new FileOutputStream(filePath.toFile());
             ObjectOutputStream oos = new ObjectOutputStream(fos);

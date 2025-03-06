@@ -99,6 +99,10 @@ public class JavaApplication {
         ChannelService channelService = new FileChannelService();
         MessageService messageService = new JCFMessageService(channelService, userService);
 
+        //파일 초기화
+        FileChannelService.channelinit();
+        FileUserService.userinit();
+
         // 테스트
         userCRUDTest(userService);
         channelCRUDTest(channelService);

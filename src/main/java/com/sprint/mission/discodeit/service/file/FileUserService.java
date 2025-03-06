@@ -53,6 +53,16 @@ public class FileUserService implements UserService {
         saveUserToFile(Paths.get(FILE_PATH), users);
     }
 
+    public static void userinit() {
+        if(!Files.exists(Paths.get(FILE_PATH))) {
+            try {
+                Files.createDirectories(Paths.get(FILE_PATH));
+            } catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public static <T> void saveUserToFile(Path filePath, T data) {
         try (FileOutputStream fos = new FileOutputStream(filePath.toFile());
              ObjectOutputStream oos = new ObjectOutputStream(fos);
