@@ -12,6 +12,7 @@ import com.sprint.mission.discodeit.jcf.JCFUserService;
 import com.sprint.mission.discodeit.jcf.JCFChannelService;
 import com.sprint.mission.discodeit.service.file.FileChannelService;
 import com.sprint.mission.discodeit.service.file.FileUserService;
+import com.sprint.mission.discodeit.service.file.FileMessageService;
 
 import java.util.List;
 import java.util.UUID;
@@ -73,9 +74,9 @@ public class JavaApplication {
         Message updatedMessage = messageService.update(message.getId(), "반갑습니다.");
         System.out.println("메시지 수정: " + updatedMessage.getContent());
         // 삭재
-        messageService.delete(message.getId());
+/*        messageService.delete(message.getId());
         List<Message> foundMessagesAfterDelete = messageService.findAll();
-        System.out.println("메시지 삭제: " + foundMessagesAfterDelete.size());
+        System.out.println("메시지 삭제: " + foundMessagesAfterDelete.size());*/
     }
 
     static User setupUser(UserService userService) {
@@ -102,6 +103,7 @@ public class JavaApplication {
         //파일 초기화
         FileChannelService.channelinit();
         FileUserService.userinit();
+        FileMessageService.messageinit();
 
         // 테스트
         userCRUDTest(userService);
