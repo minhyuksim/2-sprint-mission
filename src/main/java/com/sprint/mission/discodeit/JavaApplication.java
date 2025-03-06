@@ -7,9 +7,9 @@ import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.service.ChannelService;
 import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.service.UserService;
-import com.sprint.mission.discodeit.jcf.JCFChannelService;
 import com.sprint.mission.discodeit.jcf.JCFMessageService;
 import com.sprint.mission.discodeit.jcf.JCFUserService;
+import com.sprint.mission.discodeit.jcf.JCFChannelService;
 
 import java.util.List;
 import java.util.UUID;
