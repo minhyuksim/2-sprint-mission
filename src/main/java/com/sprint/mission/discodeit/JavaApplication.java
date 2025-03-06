@@ -11,6 +11,7 @@ import com.sprint.mission.discodeit.jcf.JCFMessageService;
 import com.sprint.mission.discodeit.jcf.JCFUserService;
 import com.sprint.mission.discodeit.jcf.JCFChannelService;
 import com.sprint.mission.discodeit.service.file.FileChannelService;
+import com.sprint.mission.discodeit.service.file.FileUserService;
 
 import java.util.List;
 import java.util.UUID;
@@ -94,19 +95,19 @@ public class JavaApplication {
 
     public static void main(String[] args) {
         // 서비스 초기화
-        //UserService userService = new JCFUserService();
+        UserService userService = new FileUserService();
         ChannelService channelService = new FileChannelService();
-        //MessageService messageService = new JCFMessageService(channelService, userService);
+        MessageService messageService = new JCFMessageService(channelService, userService);
 
         // 테스트
-        //userCRUDTest(userService);
+        userCRUDTest(userService);
         channelCRUDTest(channelService);
-        //messageCRUDTest(messageService);
+        messageCRUDTest(messageService);
 
         // 셋업
-        //User user = setupUser(userService);
+        User user = setupUser(userService);
         Channel channel = setupChannel(channelService);
         // 테스트
-        //messageCreateTest(messageService, channel, user);
+        messageCreateTest(messageService, channel, user);
     }
 }
