@@ -8,10 +8,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 
 public class FileChannelService implements ChannelService {
 
@@ -20,27 +17,44 @@ public class FileChannelService implements ChannelService {
 
     @Override
     public Channel create(ChannelType type, String name, String description) {
-        return null;
+        Channel channel = new Channel(type, name, description);
+        List<Channel> channels = loadChannelsFromFile();
+        channels.add(channel);
+        saveChannelToFile(Paths.get(FILE_PATH), channels);
+        return channel;
     }
 
     @Override
     public Channel find(UUID channelId) {
-        return null;
+        List<Channel> channels = loadChannelsFromFile();
+        return channels.stream()
+                .filter(channel -> channel.getId().equals(channelId))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("채널이 없음"));
     }
 
     @Override
     public List<Channel> findAll() {
-        return List.of();
+        return loadChannelsFromFile();
     }
 
     @Override
     public Channel update(UUID channelId, String newName, String newDescription) {
-        return null;
+        List<Channel> channels = loadChannelsFromFile();
+        Channel updatedChannel = channels.stream()
+                .filter(channel -> channel.getId().equals(channelId))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("채널이 없음"));
+        updatedChannel.update(newName, newDescription);
+        saveChannelToFile(Paths.get(FILE_PATH), channels);
+        return updatedChannel;
     }
 
     @Override
     public void delete(UUID channelId) {
-
+        List<Channel> channels = loadChannelsFromFile();
+        channels.remove(channelId);
+        saveChannelToFile(Paths.get(FILE_PATH), channels);
     }
 
     public static <T> void saveChannelToFile(Path filePath, T data) {
