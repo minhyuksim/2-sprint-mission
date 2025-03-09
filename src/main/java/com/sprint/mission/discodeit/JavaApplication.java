@@ -4,12 +4,21 @@ import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
 import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.entity.User;
+import com.sprint.mission.discodeit.repository.ChannelRepository;
+import com.sprint.mission.discodeit.repository.MessageRepository;
+import com.sprint.mission.discodeit.repository.UserRepository;
+import com.sprint.mission.discodeit.repository.jcf.JCFChannelRepository;
+import com.sprint.mission.discodeit.repository.jcf.JCFMessageRepository;
+import com.sprint.mission.discodeit.repository.jcf.JCFUserRepository;
 import com.sprint.mission.discodeit.service.ChannelService;
 import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.service.UserService;
 import com.sprint.mission.discodeit.jcf.JCFMessageService;
 import com.sprint.mission.discodeit.jcf.JCFUserService;
 import com.sprint.mission.discodeit.jcf.JCFChannelService;
+import com.sprint.mission.discodeit.service.basic.BasicChannelService;
+import com.sprint.mission.discodeit.service.basic.BasicMessageService;
+import com.sprint.mission.discodeit.service.basic.BasicUserService;
 import com.sprint.mission.discodeit.service.file.FileChannelService;
 import com.sprint.mission.discodeit.service.file.FileUserService;
 import com.sprint.mission.discodeit.service.file.FileMessageService;
@@ -95,15 +104,20 @@ public class JavaApplication {
     }
 
     public static void main(String[] args) {
+        //Repository 초기화
+        ChannelRepository channelRepository = new JCFChannelRepository();
+        UserRepository userRepository = new JCFUserRepository();
+        MessageRepository messageRepository = new JCFMessageRepository();
+
         // 서비스 초기화
-        UserService userService = new FileUserService();
-        ChannelService channelService = new FileChannelService();
-        MessageService messageService = new JCFMessageService(channelService, userService);
+        UserService userService = new BasicUserService(userRepository);
+        ChannelService channelService = new BasicChannelService(channelRepository);
+        MessageService messageService = new BasicMessageService(messageRepository);
 
         //파일 초기화
-        FileChannelService.channelinit();
-        FileUserService.userinit();
-        FileMessageService.messageinit();
+        //FileChannelService.channelinit();
+        //FileUserService.userinit();
+        //FileMessageService.messageinit();
 
         // 테스트
         userCRUDTest(userService);
