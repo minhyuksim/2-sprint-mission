@@ -2,10 +2,11 @@ package com.sprint.mission.discodeit.service.basic;
 
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
-import com.sprint.mission.discodeit.service.ChannelService;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
+import com.sprint.mission.discodeit.service.ChannelService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public class BasicChannelService implements ChannelService {
@@ -23,7 +24,8 @@ public class BasicChannelService implements ChannelService {
 
     @Override
     public Channel find(UUID channelId) {
-        return channelRepository.findById(channelId);
+        return channelRepository.findById(channelId)
+                .orElseThrow(() -> new NoSuchElementException("Channel with id " + channelId + " not found"));
     }
 
     @Override
@@ -33,14 +35,17 @@ public class BasicChannelService implements ChannelService {
 
     @Override
     public Channel update(UUID channelId, String newName, String newDescription) {
-        Channel updatedchannel = find(channelId);
-        updatedchannel.update(newName, newDescription);
-        channelRepository.save(updatedchannel);
-        return updatedchannel;
+        Channel channel = channelRepository.findById(channelId)
+                .orElseThrow(() -> new NoSuchElementException("Channel with id " + channelId + " not found"));
+        channel.update(newName, newDescription);
+        return channelRepository.save(channel);
     }
 
     @Override
     public void delete(UUID channelId) {
-        channelRepository.delete(channelId);
+        if (!channelRepository.existsById(channelId)) {
+            throw new NoSuchElementException("Channel with id " + channelId + " not found");
+        }
+        channelRepository.deleteById(channelId);
     }
 }
