@@ -29,8 +29,11 @@ public class BasicMessageService implements MessageService {
         if (!userRepository.existsById(authorId)) {
             throw new NoSuchElementException("Author not found with id " + authorId);
         }
-
-        Message message = new Message(content, channelId, authorId);
+        Message message = Message.builder()
+                .content(content)
+                .channelId(channelId)
+                .authorId(authorId)
+                .build();
         return messageRepository.save(message);
     }
 

@@ -1,5 +1,6 @@
 package com.sprint.mission.discodeit.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private UUID id;
+    private UUID profileId;
     private Instant createdAt;
     private Instant updatedAt;
     //
@@ -18,10 +20,11 @@ public class User implements Serializable {
     private String email;
     private String password;
 
+    @Builder
     public User(String username, String email, String password) {
         this.id = UUID.randomUUID();
         this.createdAt = Instant.now();
-        //
+        this.updatedAt = Instant.now();
         this.username = username;
         this.email = email;
         this.password = password;
