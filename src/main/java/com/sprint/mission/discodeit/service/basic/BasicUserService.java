@@ -21,7 +21,12 @@ public class BasicUserService implements UserService {
 
     @Override
     public User create(UserDTO.fromUserCreateDTO fromusercreateDTO) {
-
+        if(userRepository.existsByUsername(fromusercreateDTO.getUsername())) {
+            throw new IllegalArgumentException("중복이 이름이 있습니다.");
+        }
+        if(userRepository.existsByEmail(fromusercreateDTO.getEmail())) {
+            throw new IllegalArgumentException("중복된 이메일이 있습니다.");
+        }
 
         User user = User.builder()
                 .username(fromusercreateDTO.getUsername())

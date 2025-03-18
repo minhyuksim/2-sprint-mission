@@ -2,6 +2,7 @@ package com.sprint.mission.discodeit.repository.file;
 
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.repository.UserRepository;
+import jakarta.servlet.Filter;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -17,8 +18,9 @@ import java.util.UUID;
 public class FileUserRepository implements UserRepository {
     private final Path DIRECTORY;
     private final String EXTENSION = ".ser";
+    private final Filter filter;
 
-    public FileUserRepository() {
+    public FileUserRepository(Filter filter) {
         this.DIRECTORY = Paths.get(System.getProperty("user.dir"), "file-data-map", User.class.getSimpleName());
         if (Files.notExists(DIRECTORY)) {
             try {
@@ -27,6 +29,7 @@ public class FileUserRepository implements UserRepository {
                 throw new RuntimeException(e);
             }
         }
+        this.filter = filter;
     }
 
     private Path resolvePath(UUID id) {
@@ -103,12 +106,13 @@ public class FileUserRepository implements UserRepository {
 
     @Override
     public boolean existsByUsername(String username) {
-
-        return false;
+        return findAll().stream()
+                .anyMatch(user -> user.getUsername().equals(username));
     }
 
     @Override
     public boolean existsByEmail(String email) {
-        return false;
+        return findAll().stream()
+                .anyMatch(user -> user.getEmail().equals(email));
     }
 }
