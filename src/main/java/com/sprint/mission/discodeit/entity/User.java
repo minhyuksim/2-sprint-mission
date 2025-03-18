@@ -21,13 +21,14 @@ public class User implements Serializable {
     private String password;
 
     @Builder
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, UUID profileId) {
         this.id = UUID.randomUUID();
         this.createdAt = Instant.now();
         this.updatedAt = Instant.now();
         this.username = username;
         this.email = email;
         this.password = password;
+        this.profileId = profileId;
     }
 
 

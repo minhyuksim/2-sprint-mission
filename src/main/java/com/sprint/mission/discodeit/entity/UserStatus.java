@@ -15,8 +15,8 @@ public class UserStatus {
     private Instant lastLoginAt;
 
     @Builder
-    public UserStatus(UUID id, UUID userId, Instant lastLoginAt) {
-        this.id = id;
+    public UserStatus(UUID userId, Instant lastLoginAt) {
+        this.id = UUID.randomUUID();
         this.userId = userId;
         this.createdAt = Instant.now();
         this.updatedAt = Instant.now();

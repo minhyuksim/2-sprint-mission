@@ -1,5 +1,6 @@
 package com.sprint.mission.discodeit;
 
+import com.sprint.mission.discodeit.dto.UserDTO;
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
 import com.sprint.mission.discodeit.entity.Message;
@@ -32,7 +33,13 @@ public class DiscodeitApplication {
 	MessageService messageService;
 
 	static User setupUser(UserService userService) {
-		User user = userService.create("woody", "woody@codeit.com", "woody1234");
+		UserDTO.fromUserCreateDTO userCreateDTO = UserDTO.fromUserCreateDTO.builder()
+				.username("woody")
+				.email("woody@codeit.com")
+				.password("woody1234")
+				.build();
+
+		User user = userService.create(userCreateDTO);
 		return user;
 	}
 

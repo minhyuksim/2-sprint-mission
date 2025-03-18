@@ -1,11 +1,14 @@
 package com.sprint.mission.discodeit.service.basic;
 
+import com.sprint.mission.discodeit.dto.UserDTO;
 import com.sprint.mission.discodeit.entity.User;
+import com.sprint.mission.discodeit.entity.UserStatus;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -17,12 +20,21 @@ public class BasicUserService implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User create(String username, String email, String password) {
+    public User create(UserDTO.fromUserCreateDTO fromusercreateDTO) {
+
+
         User user = User.builder()
-                .username(username)
-                .email(email)
-                .password(password)
+                .username(fromusercreateDTO.getUsername())
+                .email(fromusercreateDTO.getEmail())
+                .password(fromusercreateDTO.getPassword())
+                .profileId(fromusercreateDTO.getProfileId())
                 .build();
+
+        UserStatus userStatus = UserStatus.builder()
+                .userId(user.getId())
+                .lastLoginAt(Instant.now())
+                .build();
+
         return userRepository.save(user);
     }
 

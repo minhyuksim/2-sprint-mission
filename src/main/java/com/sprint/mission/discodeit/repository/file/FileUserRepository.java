@@ -100,4 +100,15 @@ public class FileUserRepository implements UserRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public boolean existsByUsername(String username) {
+
+        return false;
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return false;
+    }
 }
