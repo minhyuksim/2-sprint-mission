@@ -18,9 +18,9 @@ import java.util.UUID;
 public class FileUserRepository implements UserRepository {
     private final Path DIRECTORY;
     private final String EXTENSION = ".ser";
-    private final Filter filter;
+    //private final Filter filter;
 
-    public FileUserRepository(Filter filter) {
+    public FileUserRepository() {
         this.DIRECTORY = Paths.get(System.getProperty("user.dir"), "file-data-map", User.class.getSimpleName());
         if (Files.notExists(DIRECTORY)) {
             try {
@@ -29,7 +29,6 @@ public class FileUserRepository implements UserRepository {
                 throw new RuntimeException(e);
             }
         }
-        this.filter = filter;
     }
 
     private Path resolvePath(UUID id) {

@@ -33,7 +33,7 @@ public class DiscodeitApplication {
 	MessageService messageService;
 
 	static User setupUser(UserService userService) {
-		UserDTO.fromUserCreateDTO userCreateDTO = UserDTO.fromUserCreateDTO.builder()
+		UserDTO.UserCreateDTO userCreateDTO = UserDTO.UserCreateDTO.builder()
 				.username("woody")
 				.email("woody@codeit.com")
 				.password("woody1234")
@@ -65,6 +65,7 @@ public class DiscodeitApplication {
 		Channel channel = setupChannel(channelService);
 		// 테스트
 		messageCreateTest(messageService, channel, user);
+		System.out.println(userService.find(user.getId()));
 	}
 
 }

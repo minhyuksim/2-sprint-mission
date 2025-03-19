@@ -51,3 +51,4 @@ public class JavaApplication {
         messageCreateTest(messageService, channel, user);
     }
 }
+*/

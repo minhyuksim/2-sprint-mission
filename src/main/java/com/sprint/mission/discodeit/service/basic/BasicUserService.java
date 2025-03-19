@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import static java.util.stream.Collectors.toList;
+
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class BasicUserService implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User create(UserDTO.fromUserCreateDTO fromusercreateDTO) {
+    public User create(UserDTO.UserCreateDTO fromusercreateDTO) {
         if(userRepository.existsByUsername(fromusercreateDTO.getUsername())) {
             throw new IllegalArgumentException("중복이 이름이 있습니다.");
         }
@@ -44,14 +46,34 @@ public class BasicUserService implements UserService {
     }
 
     @Override
-    public User find(UUID userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("User with id " + userId + " not found"));
+    public UserDTO.UserFindDTO find(UUID userId) {
+        User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+
+        boolean isOnline = Instant.now().minusSeconds(300).isBefore(user.getUpdatedAt());
+
+        UserDTO.UserFindDTO findDTO = UserDTO.UserFindDTO.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .online(isOnline).build();
+
+        return findDTO;
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDTO.UserFindDTO> findAll() {
+        return userRepository.findAll().stream()
+                .map(user->{
+                    boolean isOnline = Instant.now().minusSeconds(300).isBefore(user.getUpdatedAt());
+
+                    return UserDTO.UserFindDTO.builder()
+                            .id(user.getId())
+                            .username(user.getUsername())
+                            .online(isOnline)
+                            .email(user.getEmail())
+                            .build();
+                })
+                .toList();
     }
 
     @Override

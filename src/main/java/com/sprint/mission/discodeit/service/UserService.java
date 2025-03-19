@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-    User create(UserDTO.fromUserCreateDTO fromusercreateDTO);
-    User find(UUID userId);
-    List<User> findAll();
+    User create(UserDTO.UserCreateDTO fromusercreateDTO);
+    UserDTO.UserFindDTO find(UUID userId);
+    List<UserDTO.UserFindDTO> findAll();
     User update(UUID userId, String newUsername, String newEmail, String newPassword);
     void delete(UUID userId);
 }
