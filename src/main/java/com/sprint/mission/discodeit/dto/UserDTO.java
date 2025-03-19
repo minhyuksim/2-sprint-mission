@@ -52,7 +52,29 @@ public class UserDTO {
 
     }
 
+    @Getter
+    public static class UserUpdateDTO {
+        private UUID id;
+        private String username;
+        private String email;
+        private String password;
+        private UUID profileId;
 
+        @Builder
+        public UserUpdateDTO(UUID id, String username, String email, String password, UUID profileId) {
+            this.id = id;
+            this.username = username;
+            this.email = email;
+            this.password = password;
+            this.profileId = profileId;
+        }
+
+     /*   @Override
+        public String toString() {
+            return "UserUpdateDTO [ID : " + id +
+                    " UserName : "
+*/
+    }
 
 
 }
