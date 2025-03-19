@@ -46,7 +46,7 @@ public class BasicUserService implements UserService {
                 .build();
         userStatusRepository.save(userStatus);
 
-        return user;
+        return userRepository.save(user);
     }
 
     @Override
@@ -84,11 +84,17 @@ public class BasicUserService implements UserService {
 
     @Override
     public User update(UUID userId, String newUsername, String newEmail, String newPassword) {
-        return null;
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User with id " + userId + " not found"));
+        user.update(newUsername, newEmail, newPassword);
+        return userRepository.save(user);
     }
 
     @Override
     public void delete(UUID userId) {
-
+        if (!userRepository.existsById(userId)) {
+            throw new NoSuchElementException("User with id " + userId + " not found");
+        }
+        userRepository.deleteById(userId);
     }
 }
