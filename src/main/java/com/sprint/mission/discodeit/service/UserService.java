@@ -10,6 +10,6 @@ public interface UserService {
     User create(UserDTO.UserCreateDTO fromusercreateDTO);
     UserDTO.UserFindDTO find(UUID userId);
     List<UserDTO.UserFindDTO> findAll();
-    User update(UUID userId, String newUsername, String newEmail, String newPassword);
+    User update(UserDTO.UserUpdateDTO fromuserupdateDTO);
     void delete(UUID userId);
 }

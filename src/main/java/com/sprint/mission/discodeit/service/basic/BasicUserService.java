@@ -83,10 +83,19 @@ public class BasicUserService implements UserService {
     }
 
     @Override
-    public User update(UUID userId, String newUsername, String newEmail, String newPassword) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("User with id " + userId + " not found"));
-        user.update(newUsername, newEmail, newPassword);
+    public User update(UserDTO.UserUpdateDTO fromuserupdateDTO) {
+        User user = userRepository.findById(fromuserupdateDTO.getId())
+                .orElseThrow(() -> new NoSuchElementException("User with id " + fromuserupdateDTO.getId() + " not found"));
+        user.update(fromuserupdateDTO.getUsername(),
+                fromuserupdateDTO.getEmail(),
+                fromuserupdateDTO.getPassword(),
+                fromuserupdateDTO.getProfileId());
+        userRepository.save(user);
+
+        UserStatus updatedStatus = userStatusRepository.findById(user.getId())
+                        .orElseThrow(NoSuchElementException::new);
+        updatedStatus.setLastLoginAt(Instant.now());
+        userStatusRepository.save(updatedStatus);
         return userRepository.save(user);
     }
 
