@@ -55,7 +55,7 @@ public class FileUserStatusRepository implements UserStatusRepository {
                 ObjectOutputStream oos = new ObjectOutputStream(fos)
         ) {
             oos.writeObject(userStatus);
-            return userStatus; // ✅ 저장된 객체를 반환하도록 변경
+            return userStatus;
         } catch (IOException e) {
             throw new RuntimeException("Failed to save UserStatus for user: " + userStatus.getUserId(), e);
         }
