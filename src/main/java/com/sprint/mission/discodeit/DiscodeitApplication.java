@@ -1,5 +1,6 @@
 package com.sprint.mission.discodeit;
 
+import com.sprint.mission.discodeit.dto.AuthDTO;
 import com.sprint.mission.discodeit.dto.UserDTO;
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
@@ -11,6 +12,7 @@ import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.repository.file.FileChannelRepository;
 import com.sprint.mission.discodeit.repository.file.FileMessageRepository;
 import com.sprint.mission.discodeit.repository.file.FileUserRepository;
+import com.sprint.mission.discodeit.service.AuthService;
 import com.sprint.mission.discodeit.service.ChannelService;
 import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.service.UserService;
@@ -31,6 +33,8 @@ public class DiscodeitApplication {
 	ChannelService channelService;
 	@Autowired
 	MessageService messageService;
+	@Autowired
+	AuthService authService;
 
 	static User setupUser(UserService userService) {
 		UserDTO.UserCreateDTO userCreateDTO = UserDTO.UserCreateDTO.builder()
@@ -41,6 +45,14 @@ public class DiscodeitApplication {
 
 		User user = userService.create(userCreateDTO);
 		return user;
+	}
+
+	static AuthDTO.LoginDTO testsetupAuthDTO() {
+		AuthDTO.LoginDTO loginDTO = AuthDTO.LoginDTO.builder()
+				.username("woody")
+				.password("woody1234")
+				.build();
+		return loginDTO;
 	}
 
 	static Channel setupChannel(ChannelService channelService) {
@@ -59,13 +71,16 @@ public class DiscodeitApplication {
 		UserService userService = context.getBean(UserService.class);
 		ChannelService channelService = context.getBean(ChannelService.class);
 		MessageService messageService = context.getBean(MessageService.class);
+		AuthService authService = context.getBean(AuthService.class);
 
 		// 셋업
 		User user = setupUser(userService);
 		Channel channel = setupChannel(channelService);
+		User loginuser = authService.login(testsetupAuthDTO());
 		// 테스트
 		messageCreateTest(messageService, channel, user);
 		System.out.println(userService.find(user.getId()));
+		System.out.println(userService.find(loginuser.getId()));
 	}
 
 }
