@@ -9,8 +9,6 @@ import java.util.UUID;
 public interface ReadStatusRepository {
     ReadStatus save(ReadStatus readStatus);
     Optional<ReadStatus> findById(UUID id);
-    List<ReadStatus> findAll();
-    boolean existsById(UUID id);
+    List<ReadStatus> findAllByUserId(UUID userId);
     void deleteById(UUID id);
-
 }
