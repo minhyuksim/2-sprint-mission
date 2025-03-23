@@ -1,4 +1,4 @@
-package com.sprint.mission.discodeit.jcf;
+/*package com.sprint.mission.discodeit.jcf;
 
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
@@ -50,3 +50,4 @@ public class JCFChannelService implements ChannelService {
         this.data.remove(channelId);
     }
 }
+*/
