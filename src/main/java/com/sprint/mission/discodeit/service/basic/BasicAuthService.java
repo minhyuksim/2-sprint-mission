@@ -1,23 +1,31 @@
 package com.sprint.mission.discodeit.service.basic;
 
-import com.sprint.mission.discodeit.dto.AuthDTO;
+import com.sprint.mission.discodeit.dto.request.LoginRequest;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.service.AuthService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
+@RequiredArgsConstructor
 @Service
-@AllArgsConstructor
 public class BasicAuthService implements AuthService {
     private final UserRepository userRepository;
 
     @Override
-    public User login(AuthDTO.LoginDTO loginDTO) {
+    public User login(LoginRequest loginRequest) {
+        String username = loginRequest.username();
+        String password = loginRequest.password();
 
-        return userRepository.findAll().stream()
-                .filter(user -> user.getUsername().equals(loginDTO.getUsername()))
-                .filter(user -> user.getPassword().equals(loginDTO.getPassword()))
-                .findFirst().orElseThrow(() -> new RuntimeException("로그인 실패 : 아이디와 비밀번호를 다시 확인해주세요."));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("User with username " + username + " not found"));
+
+        if (!user.getPassword().equals(password)) {
+            throw new IllegalArgumentException("Wrong password");
+        }
+
+        return user;
     }
 }
