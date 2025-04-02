@@ -29,8 +29,8 @@ public class ReadStatusController {
         return ResponseEntity.ok(updateReadStatus);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity <List<ReadStatus>> getReadStatus(@PathVariable UUID userId) {
+    @GetMapping
+    public ResponseEntity <List<ReadStatus>> getReadStatus(@RequestParam UUID userId) {
         List<ReadStatus> status = readStatusService.findAllByUserId(userId);
         return ResponseEntity.ok(status);
     }

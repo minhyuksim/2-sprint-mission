@@ -27,7 +27,7 @@ public class UserController {
     private final UserStatusService userStatusService;
 
     @PostMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<UserDto> createUser(@RequestPart("user") UserCreateRequest userCreateRequest,
+    public ResponseEntity<UserDto> createUser(@RequestPart("userCreateRequest") UserCreateRequest userCreateRequest,
                                               @RequestPart(name = "profile", required = false) MultipartFile profileFile) {
         BinaryContentCreateRequest binaryContentCreateRequest = null;
         if (profileFile != null && !profileFile.isEmpty()) {
@@ -52,7 +52,7 @@ public class UserController {
     @PatchMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<UserDto>updateUser(
             @PathVariable("userId") UUID userId,
-            @RequestPart("user") UserUpdateRequest userUpdateRequest,
+            @RequestPart("userUpdateRequest") UserUpdateRequest userUpdateRequest,
             @RequestPart(name="profile", required = false) MultipartFile profileFile){
 
         BinaryContentCreateRequest binaryContentCreateRequest = null;
@@ -78,7 +78,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> users = userService.findAll();
         return ResponseEntity.ok(users);
