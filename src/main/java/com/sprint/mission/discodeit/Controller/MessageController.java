@@ -24,7 +24,7 @@ public class MessageController {
     private final MessageService messageService;
 
     @PostMapping(value ="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Message> sendMessage(@RequestPart("message") MessageCreateRequest messageCreateRequest,
+    public ResponseEntity<Message> sendMessage(@RequestPart("messageCreateRequest") MessageCreateRequest messageCreateRequest,
                                                @RequestPart(name="attachments", required = false) MultipartFile[] attachmentFiles) {
         List<BinaryContentCreateRequest> attachments = new ArrayList<>();
         if (attachmentFiles != null) {
@@ -60,8 +60,8 @@ public class MessageController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/channel/{channelId}")
-    public ResponseEntity <List<Message>> getAllMessageChannel(@PathVariable ("channelId") UUID channelId){
+    @GetMapping("")
+    public ResponseEntity <List<Message>> getAllMessageChannel(@RequestParam UUID channelId){
         List<Message> messages = messageService.findAllByChannelId(channelId);
         return ResponseEntity.ok(messages);
     }
