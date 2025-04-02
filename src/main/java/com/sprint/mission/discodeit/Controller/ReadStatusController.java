@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/readstatus")
+@RequestMapping("/api/readStatuses")
 @RequiredArgsConstructor
 public class ReadStatusController {
     private final ReadStatusService readStatusService;
@@ -23,7 +23,7 @@ public class ReadStatusController {
         return ResponseEntity.ok(createReadStatus);
     }
 
-    @PutMapping("/{readStatusId}")
+    @PatchMapping("/{readStatusId}")
     public ResponseEntity<ReadStatus> updateReadStatus(@PathVariable UUID readStatusId, @RequestBody ReadStatusUpdateRequest readStatusUpdateRequest) {
         ReadStatus updateReadStatus = readStatusService.update(readStatusId, readStatusUpdateRequest);
         return ResponseEntity.ok(updateReadStatus);

@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -49,7 +49,7 @@ public class UserController {
 
     }
 
-    @PutMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<UserDto>updateUser(
             @PathVariable("userId") UUID userId,
             @RequestPart("user") UserUpdateRequest userUpdateRequest,
@@ -84,7 +84,7 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @PutMapping("/{userId}/status")
+    @PatchMapping("/{userId}/userStatus")
     public ResponseEntity<UserDto> updateUserStatus(@PathVariable("userId")UUID userId,
                                                     @RequestBody UserStatusUpdateRequest userStatusUpdateRequest) {
         userStatusService.updateByUserId(userId, userStatusUpdateRequest);
