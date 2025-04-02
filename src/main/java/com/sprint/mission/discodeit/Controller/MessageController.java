@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/api/messages")
 @RequiredArgsConstructor
 public class MessageController {
     private final MessageService messageService;
@@ -48,7 +48,7 @@ public class MessageController {
 
     }
 
-    @PutMapping(value = "/{messageId}")
+    @PatchMapping(value = "/{messageId}")
     public ResponseEntity<Message> updateMessage(@PathVariable("messageId") UUID messageId, @RequestBody MessageUpdateRequest updateRequest) {
         Message updatedMessage = messageService.update(messageId, updateRequest);
         return ResponseEntity.ok(updatedMessage);
