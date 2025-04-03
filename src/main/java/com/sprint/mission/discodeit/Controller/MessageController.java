@@ -6,6 +6,7 @@ import com.sprint.mission.discodeit.dto.request.MessageUpdateRequest;
 import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.service.MessageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +45,7 @@ public class MessageController {
             }
         }
         Message createdMessage = messageService.create(messageCreateRequest, attachments);
-        return ResponseEntity.ok(createdMessage);
-
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdMessage);
     }
 
     @PatchMapping(value = "/{messageId}")

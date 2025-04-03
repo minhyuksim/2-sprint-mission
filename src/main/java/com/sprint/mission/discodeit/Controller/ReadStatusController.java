@@ -5,6 +5,7 @@ import com.sprint.mission.discodeit.dto.request.ReadStatusUpdateRequest;
 import com.sprint.mission.discodeit.entity.ReadStatus;
 import com.sprint.mission.discodeit.service.ReadStatusService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class ReadStatusController {
     @PostMapping
     public ResponseEntity<ReadStatus> createReadStatus(@RequestBody ReadStatusCreateRequest readStatusCreateRequest) {
         ReadStatus createReadStatus = readStatusService.create(readStatusCreateRequest);
-        return ResponseEntity.ok(createReadStatus);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createReadStatus);
     }
 
     @PatchMapping("/{readStatusId}")
