@@ -1,4 +1,4 @@
-package com.sprint.mission.discodeit.service.file;
+/*package com.sprint.mission.discodeit.service.file;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.service.UserService;
 
@@ -89,3 +89,4 @@ public class FileUserService implements UserService {
         return users;
     }
 }
+*/

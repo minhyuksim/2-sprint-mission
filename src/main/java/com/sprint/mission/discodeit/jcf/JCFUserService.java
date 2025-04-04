@@ -1,4 +1,4 @@
-package com.sprint.mission.discodeit.jcf;
+/*package com.sprint.mission.discodeit.jcf;
 
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.service.UserService;
@@ -51,3 +51,4 @@ public class JCFUserService implements UserService {
         this.data.remove(userId);
     }
 }
+*/
