@@ -1,4 +1,4 @@
-package com.sprint.mission.discodeit.service.file;
+/*package com.sprint.mission.discodeit.service.file;
 
 import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.entity.User;
@@ -114,3 +114,4 @@ public class FileMessageService implements MessageService {
         return messages;
     }
 }
+*/
