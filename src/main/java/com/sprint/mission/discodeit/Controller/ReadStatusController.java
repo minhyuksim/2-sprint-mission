@@ -5,6 +5,7 @@ import com.sprint.mission.discodeit.dto.request.ReadStatusUpdateRequest;
 import com.sprint.mission.discodeit.entity.ReadStatus;
 import com.sprint.mission.discodeit.service.ReadStatusService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/readstatus")
+@RequestMapping("/api/readStatuses")
 @RequiredArgsConstructor
 public class ReadStatusController {
     private final ReadStatusService readStatusService;
@@ -20,17 +21,17 @@ public class ReadStatusController {
     @PostMapping
     public ResponseEntity<ReadStatus> createReadStatus(@RequestBody ReadStatusCreateRequest readStatusCreateRequest) {
         ReadStatus createReadStatus = readStatusService.create(readStatusCreateRequest);
-        return ResponseEntity.ok(createReadStatus);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createReadStatus);
     }
 
-    @PutMapping("/{readStatusId}")
+    @PatchMapping("/{readStatusId}")
     public ResponseEntity<ReadStatus> updateReadStatus(@PathVariable UUID readStatusId, @RequestBody ReadStatusUpdateRequest readStatusUpdateRequest) {
         ReadStatus updateReadStatus = readStatusService.update(readStatusId, readStatusUpdateRequest);
         return ResponseEntity.ok(updateReadStatus);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity <List<ReadStatus>> getReadStatus(@PathVariable UUID userId) {
+    @GetMapping
+    public ResponseEntity <List<ReadStatus>> getReadStatus(@RequestParam UUID userId) {
         List<ReadStatus> status = readStatusService.findAllByUserId(userId);
         return ResponseEntity.ok(status);
     }

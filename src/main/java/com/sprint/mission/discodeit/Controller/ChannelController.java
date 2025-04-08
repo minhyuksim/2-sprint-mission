@@ -7,6 +7,7 @@ import com.sprint.mission.discodeit.dto.request.PublicChannelUpdateRequest;
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.service.ChannelService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/channel")
+@RequestMapping("/api/channels")
 @RequiredArgsConstructor
 public class ChannelController {
     private final ChannelService channelService;
@@ -23,17 +24,17 @@ public class ChannelController {
     public ResponseEntity<ChannelDto> createPublicChannel(@RequestBody PublicChannelCreateRequest publicChannelCreateRequest){
         Channel createdChannel = channelService.create(publicChannelCreateRequest);
         ChannelDto channeldto = channelService.find(createdChannel.getId());
-        return ResponseEntity.ok(channeldto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(channeldto);
     }
 
     @PostMapping(value = "/private", consumes = "application/json")
     public ResponseEntity<ChannelDto> createPrivateChannel(@RequestBody PrivateChannelCreateRequest privateChannelCreateRequest){
         Channel createdChannel = channelService.create(privateChannelCreateRequest);
         ChannelDto channeldto = channelService.find(createdChannel.getId());
-        return ResponseEntity.ok(channeldto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(channeldto);
     }
 
-    @PutMapping(value ="/{channelId}", consumes = "application/json")
+    @PatchMapping(value ="/{channelId}", consumes = "application/json")
     public ResponseEntity<ChannelDto> updateChannel(@PathVariable("channelId") UUID channelId, @RequestBody PublicChannelUpdateRequest publicChannelUpdateRequest){
         Channel updatedChannel = channelService.update(channelId,publicChannelUpdateRequest);
         ChannelDto channeldto = channelService.find(updatedChannel.getId());
@@ -47,8 +48,8 @@ public class ChannelController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ChannelDto>> getAllChannelUser(@PathVariable("userId") UUID userId){
+    @GetMapping("")
+    public ResponseEntity<List<ChannelDto>> getAllChannelUser(@RequestParam UUID userId){
         List<ChannelDto> channels = channelService.findAllByUserId(userId);
         return ResponseEntity.ok(channels);
     }

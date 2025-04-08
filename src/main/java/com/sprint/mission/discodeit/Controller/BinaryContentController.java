@@ -10,18 +10,18 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/binaryContent")
+@RequestMapping("/api/binaryContents")
 @RequiredArgsConstructor
 public class BinaryContentController {
     private final BinaryContentService binaryContentService;
 
-    @GetMapping("/find")
-    public ResponseEntity<BinaryContent> find(@RequestParam("binaryContentId") UUID binaryContentId) {
+    @GetMapping("/{binaryContentId}")
+    public ResponseEntity<BinaryContent> find(@PathVariable("binaryContentId") UUID binaryContentId) {
         return ResponseEntity.ok(binaryContentService.find(binaryContentId));
     }
 
-    @GetMapping("/findall")
-    public ResponseEntity<List<BinaryContent>> findAll(@RequestParam("id") List<UUID> binaryContentId) {
+    @GetMapping
+    public ResponseEntity<List<BinaryContent>> findAll(@RequestParam("binaryContentIds") List<UUID> binaryContentId) {
         List<BinaryContent> allbinary = binaryContentService.findAllByIdIn(binaryContentId);
         return ResponseEntity.ok(allbinary);
     }

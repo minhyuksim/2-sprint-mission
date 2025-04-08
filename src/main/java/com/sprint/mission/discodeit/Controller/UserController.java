@@ -20,14 +20,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
     private final UserStatusService userStatusService;
 
     @PostMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<UserDto> createUser(@RequestPart("user") UserCreateRequest userCreateRequest,
+    public ResponseEntity<UserDto> createUser(@RequestPart("userCreateRequest") UserCreateRequest userCreateRequest,
                                               @RequestPart(name = "profile", required = false) MultipartFile profileFile) {
         BinaryContentCreateRequest binaryContentCreateRequest = null;
         if (profileFile != null && !profileFile.isEmpty()) {
@@ -49,10 +49,10 @@ public class UserController {
 
     }
 
-    @PutMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<UserDto>updateUser(
             @PathVariable("userId") UUID userId,
-            @RequestPart("user") UserUpdateRequest userUpdateRequest,
+            @RequestPart("userUpdateRequest") UserUpdateRequest userUpdateRequest,
             @RequestPart(name="profile", required = false) MultipartFile profileFile){
 
         BinaryContentCreateRequest binaryContentCreateRequest = null;
@@ -78,13 +78,13 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> users = userService.findAll();
         return ResponseEntity.ok(users);
     }
 
-    @PutMapping("/{userId}/status")
+    @PatchMapping("/{userId}/userStatus")
     public ResponseEntity<UserDto> updateUserStatus(@PathVariable("userId")UUID userId,
                                                     @RequestBody UserStatusUpdateRequest userStatusUpdateRequest) {
         userStatusService.updateByUserId(userId, userStatusUpdateRequest);

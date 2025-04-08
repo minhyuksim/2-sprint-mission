@@ -6,6 +6,7 @@ import com.sprint.mission.discodeit.dto.request.MessageUpdateRequest;
 import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.service.MessageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,13 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/api/messages")
 @RequiredArgsConstructor
 public class MessageController {
     private final MessageService messageService;
 
     @PostMapping(value ="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Message> sendMessage(@RequestPart("message") MessageCreateRequest messageCreateRequest,
+    public ResponseEntity<Message> sendMessage(@RequestPart("messageCreateRequest") MessageCreateRequest messageCreateRequest,
                                                @RequestPart(name="attachments", required = false) MultipartFile[] attachmentFiles) {
         List<BinaryContentCreateRequest> attachments = new ArrayList<>();
         if (attachmentFiles != null) {
@@ -44,11 +45,10 @@ public class MessageController {
             }
         }
         Message createdMessage = messageService.create(messageCreateRequest, attachments);
-        return ResponseEntity.ok(createdMessage);
-
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdMessage);
     }
 
-    @PutMapping(value = "/{messageId}")
+    @PatchMapping(value = "/{messageId}")
     public ResponseEntity<Message> updateMessage(@PathVariable("messageId") UUID messageId, @RequestBody MessageUpdateRequest updateRequest) {
         Message updatedMessage = messageService.update(messageId, updateRequest);
         return ResponseEntity.ok(updatedMessage);
@@ -60,8 +60,8 @@ public class MessageController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/channel/{channelId}")
-    public ResponseEntity <List<Message>> getAllMessageChannel(@PathVariable ("channelId") UUID channelId){
+    @GetMapping("")
+    public ResponseEntity <List<Message>> getAllMessageChannel(@RequestParam UUID channelId){
         List<Message> messages = messageService.findAllByChannelId(channelId);
         return ResponseEntity.ok(messages);
     }

@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -82,15 +83,15 @@ public class FileUserStatusRepository implements UserStatusRepository {
             return paths
                     .filter(path -> path.toString().endsWith(EXTENSION))
                     .map(path -> {
-                        try (
-                                FileInputStream fis = new FileInputStream(path.toFile());
-                                ObjectInputStream ois = new ObjectInputStream(fis)
-                        ) {
+                        try (FileInputStream fis = new FileInputStream(path.toFile());
+                             ObjectInputStream ois = new ObjectInputStream(fis)) {
                             return (UserStatus) ois.readObject();
                         } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
+                            System.err.println("깨진 파일: " + path);
+                            return null; // 혹은 Optional.empty()
                         }
                     })
+                    .filter(Objects::nonNull)
                     .toList();
         } catch (IOException e) {
             throw new RuntimeException(e);
