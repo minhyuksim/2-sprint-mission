@@ -2,6 +2,7 @@ package com.sprint.mission.discodeit.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -10,13 +11,15 @@ import java.util.UUID;
 
 @Getter
 public class UserStatus extends BaseUpdatableEntity{
-    private UUID userId;
+    private User user;
     private Instant lastActiveAt;
 
     @Builder
-    public UserStatus(UUID userId, Instant lastActiveAt) {
-        this.userId = userId;
+    public UserStatus(User user,Instant lastActiveAt) {
+        this.user = user;
         this.lastActiveAt = lastActiveAt;
+
+        user.setUserStatus(this);
     }
 
     public void update(Instant lastActiveAt) {

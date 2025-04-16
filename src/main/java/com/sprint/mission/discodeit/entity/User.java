@@ -2,6 +2,7 @@ package com.sprint.mission.discodeit.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -13,7 +14,10 @@ public class User extends BaseUpdatableEntity {
     private String username;
     private String email;
     private String password;
-    private UUID profileId;     // BinaryContent
+    private UUID profileId;// BinaryContent
+
+    @Setter
+    private UserStatus userStatus;
 
     @Builder
     public User(String username, String email, String password, UUID profileId) {
