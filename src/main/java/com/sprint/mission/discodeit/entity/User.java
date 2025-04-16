@@ -1,5 +1,6 @@
 package com.sprint.mission.discodeit.entity;
 
+import jdk.incubator.vector.VectorOperators;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,20 +15,21 @@ public class User extends BaseUpdatableEntity {
     private String username;
     private String email;
     private String password;
-    private UUID profileId;// BinaryContent
+
+    private BinaryContent profile;
 
     @Setter
     private UserStatus userStatus;
 
     @Builder
-    public User(String username, String email, String password, UUID profileId) {
+    public User(String username, String email, String password, BinaryContent profile) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.profileId = profileId;
+        this.profile = profile;
     }
 
-    public void update(String newUsername, String newEmail, String newPassword, UUID newProfileId) {
+    public void update(String newUsername, String newEmail, String newPassword, BinaryContent profile) {
         if (newUsername != null && !newUsername.equals(this.username)) {
             this.username = newUsername;
         }
@@ -37,8 +39,8 @@ public class User extends BaseUpdatableEntity {
         if (newPassword != null && !newPassword.equals(this.password)) {
             this.password = newPassword;
         }
-        if (newProfileId != null && !newProfileId.equals(this.profileId)) {
-            this.profileId = newProfileId;
+        if (profile != null && !profile.equals(this.profile)) {
+            this.profile = profile;
         }
     }
 }
