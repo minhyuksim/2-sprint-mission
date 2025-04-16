@@ -1,19 +1,36 @@
 package com.sprint.mission.discodeit.entity;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Message extends BaseUpdatableEntity {
     private String content;
     //
+    @ManyToOne
+    @JoinColumn(name = "channel_id")
     private Channel channel;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User author;
+
+    @ManyToMany
+    @JoinTable(
+            name = "message_attachments",
+            joinColumns = @JoinColumn(name = "message_id"),
+            inverseJoinColumns = @JoinColumn(name = "attachment_id")
+    )
     private List<BinaryContent> attachments;
 
     @Builder

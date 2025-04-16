@@ -1,17 +1,23 @@
 package com.sprint.mission.discodeit.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
+@Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class UserStatus extends BaseUpdatableEntity{
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
+
     private Instant lastActiveAt;
 
     @Builder

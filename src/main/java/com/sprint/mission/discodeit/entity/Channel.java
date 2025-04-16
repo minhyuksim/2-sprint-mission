@@ -1,10 +1,18 @@
 package com.sprint.mission.discodeit.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Channel extends BaseUpdatableEntity {
+    @Enumerated(EnumType.STRING)
     private ChannelType type;
     private String name;
     private String description;

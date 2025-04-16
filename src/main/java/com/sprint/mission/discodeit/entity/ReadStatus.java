@@ -1,16 +1,30 @@
 package com.sprint.mission.discodeit.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
+@Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class ReadStatus extends BaseUpdatableEntity{
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "channel_id")
     private Channel channel;
+
     private Instant lastReadAt;
 
     @Builder

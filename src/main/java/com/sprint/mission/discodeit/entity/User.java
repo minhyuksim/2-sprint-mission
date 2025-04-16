@@ -1,23 +1,30 @@
 package com.sprint.mission.discodeit.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jdk.incubator.vector.VectorOperators;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
+@Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class User extends BaseUpdatableEntity {
 
     private String username;
     private String email;
     private String password;
 
+    @ManyToOne
+    @JoinColumn(name = "profile_id")
     private BinaryContent profile;
 
+    @OneToOne(mappedBy = "user")
     @Setter
     private UserStatus userStatus;
 
