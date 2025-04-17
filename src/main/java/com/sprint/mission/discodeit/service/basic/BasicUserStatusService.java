@@ -28,9 +28,6 @@ public class BasicUserStatusService implements UserStatusService {
         UUID userId = request.getUserId();
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User with id " + userId + " not found"));
 
-        if (!userRepository.existsById(userId)) {
-            throw new NoSuchElementException("User with id " + userId + " does not exist");
-        }
         if (userStatusRepository.findByUserId(userId).isPresent()) {
             throw new IllegalArgumentException("UserStatus with id " + userId + " already exists");
         }
