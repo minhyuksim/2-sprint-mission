@@ -134,19 +134,5 @@ public class BasicUserService implements UserService {
         userRepository.delete(user);
     }
 
-    private UserDto toDto(User user) {
-        Boolean online = userStatusRepository.findByUserId(user.getId())
-                .map(UserStatus::isOnline)
-                .orElse(null);
 
-        return new UserDto(
-                user.getId(),
-                user.getCreatedAt(),
-                user.getUpdatedAt(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getProfile().getId(),
-                online
-        );
-    }
 }
