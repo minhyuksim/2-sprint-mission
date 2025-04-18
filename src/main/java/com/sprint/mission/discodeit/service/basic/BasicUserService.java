@@ -73,6 +73,7 @@ public class BasicUserService implements UserService {
                 .user(user)
                 .lastActiveAt(now)
                 .build();
+    userStatusRepository.save(userStatus);
 
         User createdUser = userRepository.save(user);
 
