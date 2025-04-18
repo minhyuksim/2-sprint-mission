@@ -1,7 +1,6 @@
 package com.sprint.mission.discodeit.entity;
 
 import jakarta.persistence.*;
-import jdk.incubator.vector.VectorOperators;
 import lombok.*;
 
 import java.io.Serializable;
@@ -9,6 +8,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
+@Table(name = "users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class User extends BaseUpdatableEntity {

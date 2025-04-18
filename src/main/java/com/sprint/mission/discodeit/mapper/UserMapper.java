@@ -12,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class UserMapper {
-    BinaryContentMapper binaryContentMapper;
+    private final BinaryContentMapper binaryContentMapper;
 
     public UserDto toDto(User user){
         BinaryContentDto profileDto = Optional.ofNullable(user.getProfile())

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "messages")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Message extends BaseUpdatableEntity {
@@ -22,7 +23,7 @@ public class Message extends BaseUpdatableEntity {
     private Channel channel;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "author_id")
     private User author;
 
     @ManyToMany

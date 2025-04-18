@@ -3,6 +3,7 @@ package com.sprint.mission.discodeit.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.*;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
+@Table(name = "user_statuses")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class UserStatus extends BaseUpdatableEntity{
