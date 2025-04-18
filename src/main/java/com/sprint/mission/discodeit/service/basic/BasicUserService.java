@@ -12,6 +12,7 @@ import com.sprint.mission.discodeit.repository.BinaryContentRepository;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.repository.UserStatusRepository;
 import com.sprint.mission.discodeit.service.UserService;
+import com.sprint.mission.discodeit.storage.BinaryContentStorage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class BasicUserService implements UserService {
     private final BinaryContentRepository binaryContentRepository;
     private final UserStatusRepository userStatusRepository;
     private final UserMapper userMapper;
+    private final BinaryContentStorage binaryContentStorage;
 
     @Override
     @Transactional
@@ -50,9 +52,11 @@ public class BasicUserService implements UserService {
                             .fileName(profileRequest.getFileName())
                             .size((long)profileRequest.getBytes().length)
                             .contentType(profileRequest.getContentType())
-                            .bytes(profileRequest.getBytes())
                             .build();
-                    return binaryContentRepository.save(binaryContent);
+
+                    BinaryContent saved = binaryContentRepository.save(binaryContent);
+                    binaryContentStorage.put(saved.getId(), profileRequest.getBytes());
+                    return saved;
                 })
                 .orElse(null);
         String password = userCreateRequest.getPassword();
@@ -111,9 +115,11 @@ public class BasicUserService implements UserService {
                             .fileName(profileRequest.getFileName())
                             .size((long)profileRequest.getBytes().length)
                             .contentType(profileRequest.getContentType())
-                            .bytes(profileRequest.getBytes())
                             .build();
-                    return binaryContentRepository.save(binaryContent);
+
+                    BinaryContent saved = binaryContentRepository.save(binaryContent);
+                    binaryContentStorage.put(saved.getId(), profileRequest.getBytes());
+                    return saved;
                 })
                 .orElse(null);
 
