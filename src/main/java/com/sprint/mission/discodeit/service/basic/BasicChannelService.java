@@ -5,6 +5,7 @@ import com.sprint.mission.discodeit.dto.request.PrivateChannelCreateRequest;
 import com.sprint.mission.discodeit.dto.request.PublicChannelCreateRequest;
 import com.sprint.mission.discodeit.dto.request.PublicChannelUpdateRequest;
 import com.sprint.mission.discodeit.entity.*;
+import com.sprint.mission.discodeit.mapper.ChannelMapper;
 import com.sprint.mission.discodeit.repository.ChannelRepository;
 import com.sprint.mission.discodeit.repository.MessageRepository;
 import com.sprint.mission.discodeit.repository.ReadStatusRepository;
@@ -25,6 +26,7 @@ public class BasicChannelService implements ChannelService {
     private final ReadStatusRepository readStatusRepository;
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final ChannelMapper channelMapper;
 
     @Override
     @Transactional
@@ -62,7 +64,7 @@ public class BasicChannelService implements ChannelService {
     @Override
     public ChannelDto find(UUID channelId) {
         return channelRepository.findById(channelId)
-                .map(this::toDto)
+                .map(channelMapper::toDto)
                 .orElseThrow(() -> new NoSuchElementException("Channel with id " + channelId + " not found"));
     }
 
@@ -77,7 +79,7 @@ public class BasicChannelService implements ChannelService {
                         channel.getType().equals(ChannelType.PUBLIC)
                                 || mySubscribedChannelIds.contains(channel.getId())
                 )
-                .map(this::toDto)
+                .map(channelMapper::toDto)
                 .toList();
     }
 

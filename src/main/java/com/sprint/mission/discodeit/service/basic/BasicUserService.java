@@ -7,6 +7,7 @@ import com.sprint.mission.discodeit.dto.request.UserUpdateRequest;
 import com.sprint.mission.discodeit.entity.BinaryContent;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.entity.UserStatus;
+import com.sprint.mission.discodeit.mapper.UserMapper;
 import com.sprint.mission.discodeit.repository.BinaryContentRepository;
 import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.repository.UserStatusRepository;
@@ -28,6 +29,7 @@ public class BasicUserService implements UserService {
     //
     private final BinaryContentRepository binaryContentRepository;
     private final UserStatusRepository userStatusRepository;
+    private final UserMapper userMapper;
 
     @Override
     @Transactional
@@ -76,7 +78,7 @@ public class BasicUserService implements UserService {
     @Override
     public UserDto find(UUID userId) {
         return userRepository.findById(userId)
-                .map(this::toDto)
+                .map(userMapper::toDto)
                 .orElseThrow(() -> new NoSuchElementException("User with id " + userId + " not found"));
     }
 
@@ -84,7 +86,7 @@ public class BasicUserService implements UserService {
     public List<UserDto> findAll() {
         return userRepository.findAll()
                 .stream()
-                .map(this::toDto)
+                .map(userMapper::toDto)
                 .toList();
     }
 
