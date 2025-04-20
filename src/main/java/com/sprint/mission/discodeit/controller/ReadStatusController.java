@@ -1,8 +1,10 @@
 package com.sprint.mission.discodeit.controller;
 
+import com.sprint.mission.discodeit.dto.data.ReadStatusDto;
 import com.sprint.mission.discodeit.dto.request.ReadStatusCreateRequest;
 import com.sprint.mission.discodeit.dto.request.ReadStatusUpdateRequest;
 import com.sprint.mission.discodeit.entity.ReadStatus;
+import com.sprint.mission.discodeit.mapper.ReadStatusMapper;
 import com.sprint.mission.discodeit.service.ReadStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,9 +19,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ReadStatusController {
     private final ReadStatusService readStatusService;
+    private final ReadStatusMapper readStatusMapper;
 
     @PostMapping
     public ResponseEntity<ReadStatus> createReadStatus(@RequestBody ReadStatusCreateRequest readStatusCreateRequest) {
+        System.out.println("🚨 [CREATE 호출됨] ");
         ReadStatus createReadStatus = readStatusService.create(readStatusCreateRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createReadStatus);
     }
@@ -27,13 +31,16 @@ public class ReadStatusController {
     @PatchMapping("/{readStatusId}")
     public ResponseEntity<ReadStatus> updateReadStatus(@PathVariable UUID readStatusId, @RequestBody ReadStatusUpdateRequest readStatusUpdateRequest) {
         ReadStatus updateReadStatus = readStatusService.update(readStatusId, readStatusUpdateRequest);
+        System.out.println("✅ [UPDATE 호출됨]");
         return ResponseEntity.ok(updateReadStatus);
     }
 
     @GetMapping
-    public ResponseEntity <List<ReadStatus>> getReadStatus(@RequestParam UUID userId) {
-        List<ReadStatus> status = readStatusService.findAllByUserId(userId);
-        return ResponseEntity.ok(status);
+    public ResponseEntity<List<ReadStatusDto>> getReadStatus(@RequestParam UUID userId) {
+        List<ReadStatusDto> dtos = readStatusService.findAllByUserId(userId).stream()
+                .map(readStatusMapper::toDto)
+                .toList();
+        return ResponseEntity.ok(dtos);
     }
 
 }

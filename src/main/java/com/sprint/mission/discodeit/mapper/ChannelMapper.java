@@ -32,7 +32,7 @@ public class ChannelMapper {
 
         List<UserDto> participants = List.of();
         if (channel.getType() == ChannelType.PRIVATE) {
-            participants = readStatusRepository.findAllByChannelId(channel.getId()).stream()
+            participants = readStatusRepository.findAllByChannel_Id(channel.getId()).stream()
                     .map(ReadStatus::getUser)
                     .map(userMapper::toDto)
                     .toList();
