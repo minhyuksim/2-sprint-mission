@@ -1,11 +1,18 @@
 package com.sprint.mission.discodeit.controller;
 
+import com.sprint.mission.discodeit.dto.data.MessageDto;
 import com.sprint.mission.discodeit.dto.request.BinaryContentCreateRequest;
 import com.sprint.mission.discodeit.dto.request.MessageCreateRequest;
 import com.sprint.mission.discodeit.dto.request.MessageUpdateRequest;
+import com.sprint.mission.discodeit.dto.response.PageResponse;
 import com.sprint.mission.discodeit.entity.Message;
+import com.sprint.mission.discodeit.mapper.PageResponseMapper;
 import com.sprint.mission.discodeit.service.MessageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -60,9 +67,14 @@ public class MessageController {
     }
 
     @GetMapping("")
-    public ResponseEntity <List<Message>> getAllMessageChannel(@RequestParam UUID channelId){
-        List<Message> messages = messageService.findAllByChannelId(channelId);
-        return ResponseEntity.ok(messages);
+    public ResponseEntity <PageResponse<MessageDto>> getAllMessageChannel(
+            @RequestParam UUID channelId,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable
+            ){
+        Slice<MessageDto> slice = messageService.findAllByChannelId(channelId, pageable);
+        PageResponse<MessageDto> response = PageResponseMapper.fromSlice(slice);
+
+        return ResponseEntity.ok(response);
     }
 
 }

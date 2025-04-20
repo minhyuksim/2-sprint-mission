@@ -25,10 +25,7 @@ public class ChannelMapper {
 
 
     public ChannelDto toDto(Channel channel) {
-        Instant lastMessageAt = messageRepository.findAllByChannelId(channel.getId()).stream()
-                .map(Message::getCreatedAt)
-                .max(Comparator.naturalOrder())
-                .orElse(Instant.MIN);
+        Instant lastMessageAt = Instant.now();
 
         List<UserDto> participants = List.of();
         if (channel.getType() == ChannelType.PRIVATE) {
