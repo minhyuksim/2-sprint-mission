@@ -3,8 +3,7 @@ CREATE TABLE binary_contents(
                                 created_at timestamptz NOT NULL,
                                 file_name VARCHAR(255) NOT NULL,
                                 size BIGINT NOT NULL ,
-                                content_type VARCHAR(100) NOT NULL ,
-                                bytes bytea NOT NULL
+                                content_type VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE users(

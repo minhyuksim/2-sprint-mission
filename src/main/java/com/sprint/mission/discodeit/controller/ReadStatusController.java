@@ -23,7 +23,6 @@ public class ReadStatusController {
 
     @PostMapping
     public ResponseEntity<ReadStatus> createReadStatus(@RequestBody ReadStatusCreateRequest readStatusCreateRequest) {
-        System.out.println("🚨 [CREATE 호출됨] ");
         ReadStatus createReadStatus = readStatusService.create(readStatusCreateRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createReadStatus);
     }
@@ -31,7 +30,6 @@ public class ReadStatusController {
     @PatchMapping("/{readStatusId}")
     public ResponseEntity<ReadStatus> updateReadStatus(@PathVariable UUID readStatusId, @RequestBody ReadStatusUpdateRequest readStatusUpdateRequest) {
         ReadStatus updateReadStatus = readStatusService.update(readStatusId, readStatusUpdateRequest);
-        System.out.println("✅ [UPDATE 호출됨]");
         return ResponseEntity.ok(updateReadStatus);
     }
 

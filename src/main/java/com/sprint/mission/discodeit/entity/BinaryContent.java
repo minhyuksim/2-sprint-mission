@@ -20,7 +20,6 @@ public class BinaryContent extends BaseEntity {
 
     @Builder
     public BinaryContent(String fileName, Long size, String contentType) {
-        this.id = UUID.randomUUID();
         this.fileName = fileName;
         this.size = size;
         this.contentType = contentType;
