@@ -67,6 +67,7 @@ public class BasicUserService implements UserService {
                 .password(password)
                 .profile(profile)
                 .build();
+        User createdUser = userRepository.save(user);
 
         Instant now = Instant.now();
         UserStatus userStatus = UserStatus.builder()
@@ -75,7 +76,6 @@ public class BasicUserService implements UserService {
                 .build();
     userStatusRepository.save(userStatus);
 
-        User createdUser = userRepository.save(user);
 
         return createdUser;
     }
