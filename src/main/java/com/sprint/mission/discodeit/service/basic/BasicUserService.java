@@ -40,6 +40,7 @@ public class BasicUserService implements UserService {
       Optional<BinaryContentCreateRequest> optionalProfileCreateRequest) {
     String username = userCreateRequest.username();
     String email = userCreateRequest.email();
+    log.info("사용자 생성 요청: username={}, email={}", username, email);
 
     if (userRepository.existsByEmail(email)) {
       throw new IllegalArgumentException("User with email " + email + " already exists");
@@ -57,6 +58,7 @@ public class BasicUserService implements UserService {
               contentType);
           binaryContentRepository.save(binaryContent);
           binaryContentStorage.put(binaryContent.getId(), bytes);
+          log.info("프로필 이미지 저장 완료: filename={}, contentType={}, size={} bytes", fileName, contentType, bytes.length);
           return binaryContent;
         })
         .orElse(null);
@@ -67,6 +69,8 @@ public class BasicUserService implements UserService {
     UserStatus userStatus = new UserStatus(user, now);
 
     userRepository.save(user);
+    log.info("사용자 생성 완료: id={}", user.getId());
+
     return userMapper.toDto(user);
   }
 
@@ -89,6 +93,8 @@ public class BasicUserService implements UserService {
   @Override
   public UserDto update(UUID userId, UserUpdateRequest userUpdateRequest,
       Optional<BinaryContentCreateRequest> optionalProfileCreateRequest) {
+    log.info("사용자 수정 요청: id={}, newUsername={}, newEmail={}", userId, userUpdateRequest.newUsername(), userUpdateRequest.newEmail());
+
     User user = userRepository.findById(userId)
         .orElseThrow(() -> new NoSuchElementException("User with id " + userId + " not found"));
 
@@ -111,12 +117,14 @@ public class BasicUserService implements UserService {
               contentType);
           binaryContentRepository.save(binaryContent);
           binaryContentStorage.put(binaryContent.getId(), bytes);
+          log.info("프로필 이미지 변경 완료: filename={}, contentType={}, size={} bytes", fileName, contentType, bytes.length);
           return binaryContent;
         })
         .orElse(null);
 
     String newPassword = userUpdateRequest.newPassword();
     user.update(newUsername, newEmail, newPassword, nullableProfile);
+    log.info("사용자 수정 완료: id={}", userId);
 
     return userMapper.toDto(user);
   }
@@ -124,10 +132,13 @@ public class BasicUserService implements UserService {
   @Transactional
   @Override
   public void delete(UUID userId) {
+    log.info("사용자 삭제 요청: id={}", userId);
+
     if (userRepository.existsById(userId)) {
       throw new NoSuchElementException("User with id " + userId + " not found");
     }
 
     userRepository.deleteById(userId);
+    log.info("사용자 삭제 완료: id={}", userId);
   }
 }

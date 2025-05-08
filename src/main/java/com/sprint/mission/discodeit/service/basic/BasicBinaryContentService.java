@@ -30,6 +30,10 @@ public class BasicBinaryContentService implements BinaryContentService {
     String fileName = request.fileName();
     byte[] bytes = request.bytes();
     String contentType = request.contentType();
+
+    log.info("파일 업로드 시작: filename={}, size={} bytes",
+            fileName, bytes.length);
+
     BinaryContent binaryContent = new BinaryContent(
         fileName,
         (long) bytes.length,
@@ -37,6 +41,7 @@ public class BasicBinaryContentService implements BinaryContentService {
     );
     binaryContentRepository.save(binaryContent);
     binaryContentStorage.put(binaryContent.getId(), bytes);
+    log.info("파일 업로드 완료: id={}", binaryContent.getId());
 
     return binaryContentMapper.toDto(binaryContent);
   }
