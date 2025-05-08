@@ -20,5 +20,9 @@ spring:
     init:
       mode: always
 
+logging:
+  level:
+    root: debug
+
 server:
   port: 8080
