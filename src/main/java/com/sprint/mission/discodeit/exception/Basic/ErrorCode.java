@@ -1,4 +1,4 @@
-package com.sprint.mission.discodeit.exception;
+package com.sprint.mission.discodeit.exception.Basic;
 
 public enum ErrorCode {
     USER_NOT_FOUND("존재하지 않는 사용자입니다."),

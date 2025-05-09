@@ -1,7 +1,5 @@
 package com.sprint.mission.discodeit.exception.Basic;
 
-import com.sprint.mission.discodeit.exception.ErrorCode;
-
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;

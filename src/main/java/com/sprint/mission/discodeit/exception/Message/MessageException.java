@@ -1,7 +1,7 @@
 package com.sprint.mission.discodeit.exception.Message;
 
 import com.sprint.mission.discodeit.exception.Basic.DiscodeitException;
-import com.sprint.mission.discodeit.exception.ErrorCode;
+import com.sprint.mission.discodeit.exception.Basic.ErrorCode;
 
 import java.util.Map;
 

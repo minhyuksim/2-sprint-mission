@@ -1,6 +1,8 @@
 package com.sprint.mission.discodeit.storage.local;
 
 import com.sprint.mission.discodeit.dto.data.BinaryContentDto;
+import com.sprint.mission.discodeit.exception.BinaryContent.BinaryContentNotFoundException;
+import com.sprint.mission.discodeit.exception.BinaryContent.BinaryContentStorageException;
 import com.sprint.mission.discodeit.storage.BinaryContentStorage;
 import jakarta.annotation.PostConstruct;
 import java.io.IOException;
@@ -51,7 +53,7 @@ public class LocalBinaryContentStorage implements BinaryContentStorage {
     try (OutputStream outputStream = Files.newOutputStream(filePath)) {
       outputStream.write(bytes);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new BinaryContentStorageException(binaryContentId);
     }
     return binaryContentId;
   }
@@ -59,13 +61,12 @@ public class LocalBinaryContentStorage implements BinaryContentStorage {
   public InputStream get(UUID binaryContentId) {
     Path filePath = resolvePath(binaryContentId);
     if (Files.notExists(filePath)) {
-      throw new NoSuchElementException("File with key " + binaryContentId + " does not exist");
+      throw new BinaryContentNotFoundException(binaryContentId);
     }
     try {
       return Files.newInputStream(filePath);
     } catch (IOException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
+      throw new BinaryContentStorageException(binaryContentId);
     }
   }
 
