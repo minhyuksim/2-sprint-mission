@@ -1,4 +1,6 @@
-package com.sprint.mission.discodeit.exception;
+package com.sprint.mission.discodeit.exception.Basic;
+
+import com.sprint.mission.discodeit.exception.ErrorCode;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -17,13 +19,6 @@ public class DiscodeitException extends RuntimeException {
         this.details = Collections.emptyMap();
     }
 
-    public DiscodeitException(ErrorCode errorCode, Throwable cause) {
-        super(errorCode.getMessage(), cause);
-        this.timestamp = Instant.now();
-        this.errorCode = errorCode;
-        this.details = Collections.emptyMap();
-    }
-
     public DiscodeitException(ErrorCode errorCode, Map<String, Object> details) {
         super(errorCode.getMessage());
         this.timestamp = Instant.now();
@@ -31,11 +26,6 @@ public class DiscodeitException extends RuntimeException {
         this.details = new HashMap<>(details);
     }
 
-    public DiscodeitException(ErrorCode errorCode, Throwable cause, Map<String, Object> details) {
-        super(errorCode.getMessage(), cause);
-        this.timestamp = Instant.now();
-        this.errorCode = errorCode;
-        this.details = new HashMap<>(details);
-    }
+
 
 }
