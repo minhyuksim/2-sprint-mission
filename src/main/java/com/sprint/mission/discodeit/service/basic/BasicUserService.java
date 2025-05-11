@@ -45,10 +45,10 @@ public class BasicUserService implements UserService {
     log.info("사용자 생성 요청: username={}, email={}", username, email);
 
     if (userRepository.existsByEmail(email)) {
-        throw new UserAlreadyExistException(username, email);
+        throw UserAlreadyExistException.duplicateEmail(email);
     }
     if (userRepository.existsByUsername(username)) {
-        throw new UserAlreadyExistException(username, email);
+        throw UserAlreadyExistException.duplicateUserName(username);
     }
 
     BinaryContent nullableProfile = optionalProfileCreateRequest
@@ -103,10 +103,10 @@ public class BasicUserService implements UserService {
     String newUsername = userUpdateRequest.newUsername();
     String newEmail = userUpdateRequest.newEmail();
     if (userRepository.existsByEmail(newEmail)) {
-      throw new UserAlreadyExistException(newUsername,newEmail);
+      throw UserAlreadyExistException.duplicateEmail(newEmail);
     }
     if (userRepository.existsByUsername(newUsername)) {
-        throw new UserAlreadyExistException(newUsername,newEmail);
+        throw UserAlreadyExistException.duplicateUserName(newUsername);
     }
 
     BinaryContent nullableProfile = optionalProfileCreateRequest

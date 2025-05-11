@@ -1,10 +1,13 @@
 package com.sprint.mission.discodeit.exception.Basic;
 
+import lombok.Getter;
+
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public class DiscodeitException extends RuntimeException {
     private final Instant timestamp;
     private final ErrorCode errorCode;
