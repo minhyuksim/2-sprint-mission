@@ -23,3 +23,19 @@ discodeit:
     type: local
     local:
       root-path: ./binary-files
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+info:
+  app:
+    name: discodeit
+    version: 1.7.0
+  java:
+    version: 17
+  spring:
+    boot:
+      version: 3.4.0
