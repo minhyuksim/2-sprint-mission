@@ -1,13 +1,11 @@
-package com.sprint.mission.discodeit;
+package com.sprint.mission.discodeit.service;
 
 import com.sprint.mission.discodeit.dto.data.UserDto;
 import com.sprint.mission.discodeit.dto.request.UserCreateRequest;
-import com.sprint.mission.discodeit.dto.request.UserUpdateRequest;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.exception.User.UserAlreadyExistException;
 import com.sprint.mission.discodeit.mapper.UserMapper;
 import com.sprint.mission.discodeit.repository.UserRepository;
-import com.sprint.mission.discodeit.service.UserService;
 
 import com.sprint.mission.discodeit.service.basic.BasicUserService;
 import org.junit.jupiter.api.Test;
