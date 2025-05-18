@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +30,7 @@ public class ChannelController implements ChannelApi {
   private final ChannelService channelService;
 
   @PostMapping(path = "public")
-  public ResponseEntity<ChannelDto> create(@RequestBody PublicChannelCreateRequest request) {
+  public ResponseEntity<ChannelDto> create(@RequestBody @Valid PublicChannelCreateRequest request) {
     ChannelDto createdChannel = channelService.create(request);
     return ResponseEntity
         .status(HttpStatus.CREATED)
