@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,9 +43,25 @@ class UserControllerTest {
         UUID id = UUID.randomUUID();
         UserDto response = new UserDto(id, "tester", "test@email.com", null, true);
 
+        // mock service
         Mockito.when(userService.create(any(), any())).thenReturn(response);
 
-        mockMvc.perform(multipart("/api/users"))
+        // JSON Part
+        MockMultipartFile userPart = new MockMultipartFile(
+                "userCreateRequest",
+                "",
+                "application/json",
+                """
+                {
+                    "username": "tester",
+                    "email": "test@email.com",
+                    "password": "1234"
+                }
+                """.getBytes(StandardCharsets.UTF_8)
+        );
+
+        mockMvc.perform(multipart("/api/users")
+                        .file(userPart))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.username").value("tester"));
     }

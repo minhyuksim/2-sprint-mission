@@ -83,7 +83,7 @@ class ChannelControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("수정된채널"));
+                .andExpect(jsonPath("$.name").value("수정채널"));
     }
 
     @Test
