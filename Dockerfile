@@ -4,12 +4,10 @@ WORKDIR /app
 
 COPY . .
 
-RUN ./gradlew build -x test
+RUN ./gradlew clean booJar -x test
 
-ENV PROJECT_NAME=discodeit
-ENV PROJECT_VERSION=1.2-M8
 ENV JVM_OPTS="-Xms256m -Xmx512m"
 
-EXPOSE 80
+EXPOSE 8081
 
-ENTRYPOINT ["sh", "-c", "java $JVM_OPTS -jar build/libs/*.jar"]
+ENTRYPOINT ["sh", "-c", "java $JVM_OPTS -jar build/libs/discodeit-1.2-M8.jar"]
