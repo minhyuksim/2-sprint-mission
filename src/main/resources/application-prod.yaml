@@ -1,0 +1,26 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    url: jdbc:postgresql://discodeit-db.c36mgyg8y6v9.ap-northeast-2.rds.amazonaws.com:5432/discodeit
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        format_sql: false
+
+logging:
+  level:
+    com.sprint.mission.discodeit: info
+    org.hibernate.SQL: info
+
+management:
+  endpoint:
+    health:
+      show-details: never
+  info:
+    env:
+      enabled: false
