@@ -64,6 +64,15 @@ jobs:
           container-name: discodeit-app
           image: ${{ vars.ECR_REPOSITORY_URI }}:${{ github.sha }}
 
+      - name: Register new task definition
+        id: register-task-def
+        run: |
+          new_task_def_arn=$(aws ecs register-task-definition \
+            --cli-input-json file://${{ steps.render-task-def.outputs.task-definition }} \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+          echo "taskDefinitionArn=$new_task_def_arn" >> $GITHUB_OUTPUT
+
       - name: Stop old ECS service
         run: |
           aws ecs update-service \
@@ -76,5 +85,5 @@ jobs:
           aws ecs update-service \
             --cluster ${{ vars.ECS_CLUSTER }} \
             --service ${{ vars.ECS_SERVICE }} \
-            --task-definition ${{ steps.render-task-def.outputs.task-definition-arn }} \
+            --task-definition ${{ steps.register-task-def.outputs.taskDefinitionArn }} \
             --desired-count 1
