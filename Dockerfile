@@ -3,6 +3,7 @@ WORKDIR /app
 COPY build.gradle settings.gradle ./
 RUN gradle build --dry-run || true
 COPY . .
+RUN chmod +x gradlew
 RUN ./gradlew clean bootJar -x test
 
 FROM eclipse-temurin:17-jre-alpine AS runtime
