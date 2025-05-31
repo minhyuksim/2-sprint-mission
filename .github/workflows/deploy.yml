@@ -27,8 +27,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-1
 
-      - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v2
+      - name: Login to Amazon Public ECR
+        run: |
+          aws ecr-public get-login-password --region us-east-1 \
+            | docker login --username AWS --password-stdin public.ecr.aws
+
 
       - name: Build and tag Docker image
         run: |
