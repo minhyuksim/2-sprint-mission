@@ -1,13 +1,13 @@
-FROM amazoncorretto:17
-
+FROM gradle:8.5-jdk17 AS builder
 WORKDIR /app
-
+COPY build.gradle settings.gradle ./
+RUN gradle build --dry-run || true
 COPY . .
+RUN ./gradlew clean bootJar -x test
 
-RUN ./gradlew clean booJar -x test
-
+FROM eclipse-temurin:17-jre-alpine AS runtime
+WORKDIR /app
+COPY --from=builder /app/build/libs/*.jar app.jar
 ENV JVM_OPTS="-Xms256m -Xmx512m"
-
-EXPOSE 8081
-
-ENTRYPOINT ["sh", "-c", "java $JVM_OPTS -jar build/libs/discodeit-1.2-M8.jar"]
+EXPOSE 80
+ENTRYPOINT ["sh", "-c", "java $JVM_OPTS -jar app.jar"]
